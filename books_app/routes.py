@@ -21,6 +21,8 @@ def homepage():
     return render_template('home.html', 
         all_books=all_books, all_users=all_users)
 
+# GET: showing the form to the user
+# POST: submitting the form
 @main.route('/create_book', methods=['GET', 'POST'])
 def create_book():
     form = BookForm()
@@ -44,14 +46,24 @@ def create_book():
 @main.route('/create_author', methods=['GET', 'POST'])
 def create_author():
     # TODO: Make an AuthorForm instance
-
+    form = AuthorForm()
     # TODO: If the form was submitted and is valid, create a new Author object
     # and save to the database, then flash a success message to the user and
     # redirect to the homepage
+    if form.validate_on_submit():
+        new_author = Author(
+            name = form.name.data,
+            biography = form.biography.data
+        )
+        db.session.add(new_author)
+        db.session.commit()
+
+        flash('New author was created successfully.')
 
     # TODO: Send the form object to the template, and use it to render the form
     # fields
-    return render_template('create_author.html')
+        
+    return render_template('create_author.html', form=form)
 
 @main.route('/create_genre', methods=['GET', 'POST'])
 def create_genre():
