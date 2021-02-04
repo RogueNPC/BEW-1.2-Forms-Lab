@@ -28,7 +28,7 @@ def create_book():
     form = BookForm()
 
     # if form was submitted and contained no errors
-    if form.validate_on_submit(): 
+    if form.validate_on_submit(): # returns True if the form is valid
         new_book = Book(
             title=form.title.data,
             publish_date=form.publish_date.data,
